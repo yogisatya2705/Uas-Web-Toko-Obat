@@ -8,6 +8,7 @@ use App\Barang;
 use App\Supplier;
 use App\Pembelian;
 use App\User;
+use App\RoleUser;
 
 class AdminController extends Controller
 {
@@ -15,6 +16,22 @@ class AdminController extends Controller
   public function index()
   {
     return view('admin.home');
+  }
+
+  public static function NotifUltah()
+  {
+    $dataulangtahun = User::where('tgllahir', date("Y-m-d"))->get();
+    // dd($dataulangtahun);
+
+    return $dataulangtahun;
+  }
+
+  public static function NotifObat()
+  {
+    $datahabis = Pembelian::with('users', 'barang')->where('tgl_habis', date("Y-m-d"))->get();
+    // dd($dataulangtahun);
+
+    return $datahabis;
   }
 
   public function __construct()
@@ -94,6 +111,68 @@ class AdminController extends Controller
     $listdata = Supplier::find($id);
 
     return view('admin/page/sup', ['act' => 'showedit', 'listdata' => $listdata]);
+  }
+
+  public function ShowMembInput()
+  {
+    return view('admin/page/memb', ['act' => 'showinput']);
+  }
+
+  public function ShowMembListMsg($msg)
+  {
+    $datauser = User::whereHas('roles', function ($query) {
+      $query->where('name', 'ROLE_MEMBER');
+    })->get();
+
+
+    return view('admin/page/memb', ['act' => 'showlist', 'listdata' => $datauser, 'msg' => $msg]);
+  }
+
+  public function ShowMembList()
+  {
+    $datauser = User::whereHas('roles', function ($query) {
+      $query->where('name', 'ROLE_MEMBER');
+    })->get();
+
+
+    return view('admin/page/memb', ['act' => 'showlist', 'listdata' => $datauser]);
+  }
+
+  public function ShowMembEdit($id)
+  {
+    $listdata = User::where('id', $id)->first();
+
+    return view('admin/page/memb', ['act' => 'showedit', 'listdata' => $listdata]);
+  }
+
+  public function ShowMembDel($id)
+  {
+    $datauser = User::whereHas('roles', function ($query) {
+      $query->where('name', 'ROLE_MEMBER');
+    })->get();
+
+
+    return view('admin/page/memb', ['act' => 'showlist', 'listdata' => $datauser, 'val_del' => $id]);
+  }
+
+  public function ProsesMembDel($id)
+  {
+    try {
+      // $del = DB::table('supplier')->where('id', '=', $id)->delete();
+      $del = User::destroy($id);
+      $del = RoleUser::where('user_id', $id)->delete();
+    } catch (\Illuminate\Database\QueryException $e) {
+      // $listdata = DB::table('supplier')->get();
+      $err = $e->errorInfo;
+      return redirect('memb/showlist/6');
+    }
+
+    // $listdata = DB::table('supplier')->get();
+    if ($del) {
+      return redirect('memb/showlist/5');
+    } else {
+      return redirect('memb/showlist/6');
+    }
   }
 
   public function ShowBarInput()
@@ -395,13 +474,13 @@ class AdminController extends Controller
     $id_user = $req->nama;
     $point = $req->point;
     $dosis = $req->dosis;
-    $total_point =$req->totalpoint;
+    $total_point = $req->totalpoint;
     $tanggal = date("Y-m-d");
     $obathabis = $jmlh_beli / $dosis;
     $obathabis = ceil($obathabis);
     // dd($obathabis);
     $tgl_habis = date("Y-m-d");
-    $tgl_habis = date("Y-m-d", strtotime(($tgl_habis. ' + '. $obathabis .' days')));
+    $tgl_habis = date("Y-m-d", strtotime(($tgl_habis . ' + ' . $obathabis . ' days')));
     $msg = 0;
 
     $currentpoint = User::find($id_user);
@@ -413,7 +492,7 @@ class AdminController extends Controller
         return redirect($rurl);
       }
       $updatepoint = User::find($id_user)->update(['point' => $currentpoint->point - $total_point]);
-    }else {
+    } else {
       $updatepoint = User::find($id_user)->update(['point' => $currentpoint->point + $point]);
     }
 

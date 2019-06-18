@@ -21,7 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/admin', 'AdminController@ShowDashboard');
 
-Route::get('/member', 'MemberController@index');
+Route::get('/member', 'MemberController@ShowDashboard');
 
 // ADMIN
 Route::get('sup/showinput', 'AdminController@ShowSupInput');
@@ -56,4 +56,9 @@ Route::post('pemb/prosesedit', 'AdminController@ProsesPembEdit');
 Route::get('pemb/prosesdelete/{id}', 'AdminController@ProsesPembDelete');
 
 Route::get('memb/showinput', 'AdminController@ShowMembInput');
+Route::get('memb/showlist', 'AdminController@ShowMembList');
+Route::get('memb/showlist/{msg}', 'AdminController@ShowMembListMsg');
+Route::get('memb/showdelete/{id}', 'AdminController@ShowMembDel');
+Route::get('memb/prosesdelete/{id}', 'AdminController@ProsesMembDel');
+Route::get('memb/showedit/{id}', 'AdminController@ShowMembEdit');
 // END ADMIN

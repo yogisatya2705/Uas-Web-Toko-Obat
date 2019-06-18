@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\RoleUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -10,7 +11,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Register Controller
     |--------------------------------------------------------------------------
@@ -21,52 +22,67 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+  use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
+  /**
+   * Where to redirect users after registration.
+   *
+   * @var string
+   */
+  protected $redirectTo = '/memb/showlist/5';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
+  /**
+   * Create a new controller instance.
+   *
+   * @return void
+   */
+  // public function __construct()
+  // {
+  //     $this->middleware('guest');
+  // }
+  public function __construct()
+  {
+    $this->middleware('auth');
+    $this->middleware('role:ROLE_ADMIN');
+  }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
+  /**
+   * Get a validator for an incoming registration request.
+   *
+   * @param  array  $data
+   * @return \Illuminate\Contracts\Validation\Validator
+   */
+  protected function validator(array $data)
+  {
+    return Validator::make($data, [
+      'name' => ['required', 'string', 'max:255'],
+      'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+      'password' => ['required', 'string', 'min:8', 'confirmed'],
+    ]);
+  }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-    }
+  /**
+   * Create a new user instance after a valid registration.
+   *
+   * @param  array  $data
+   * @return \App\User
+   */
+  protected function create(array $data)
+  {
+    $id = User::create([
+      'name' => $data['name'],
+      'email' => $data['email'],
+      'jk' => $data['jk'],
+      'tgllahir' => $data['tgllahir'],
+      'alamat' => $data['alamat'],
+      'nohp' => $data['nohp'],
+      'password' => Hash::make($data['password']),
+    ]);
+    
+    RoleUser::create([
+      'role_id' => '3',
+      'user_id' => $id->id
+    ]);
+    return 1;
+  }
 }

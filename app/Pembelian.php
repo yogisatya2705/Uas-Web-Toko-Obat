@@ -18,4 +18,8 @@ class Pembelian extends Model
   {
     return $this->belongsTo('App\User', 'id_user', 'id');
   }
+  public function barang()
+  {
+    return $this->belongsTo('App\Barang', 'id_bar', 'id');
+  }
 }

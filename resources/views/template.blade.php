@@ -11,10 +11,12 @@
   <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}">
   <link href="{{ asset('assets/vendor/fonts/circular-std/style.css')}}" rel="stylesheet">
   <link rel="stylesheet" href="{{ asset('assets/libs/css/style.css')}}">
-  <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/fontawesome/css/fontawesome-all.css')}}">awesome-all.css')}}">
+  <link rel="stylesheet" href="{{ asset('assets/vendor/fonts/fontawesome/css/fontawesome-all.css')}}">
   
   {{-- SELECT SEARCH BOX --}}
   <link href="{{ asset('assets/select2/select2.min.css')}}" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../assets/vendor/datepicker/tempusdominus-bootstrap-4.css" />
 </head>
 
 <body>
@@ -43,7 +45,7 @@
                   <div class="notification-title"> Notification</div>
                   <div class="notification-list">
                     <div class="list-group">
-                      <a href="#" class="list-group-item list-group-item-action active">
+                      {{-- <a href="#" class="list-group-item list-group-item-action active">
                         <div class="notification-info">
                           <div class="notification-list-user-img"><img src="assets/images/avatar-2.jpg" alt=""
                               class="user-avatar-md rounded-circle"></div>
@@ -52,37 +54,9 @@
                             <div class="notification-date">2 min ago</div>
                           </div>
                         </div>
-                      </a>
-                      <a href="#" class="list-group-item list-group-item-action">
-                        <div class="notification-info">
-                          <div class="notification-list-user-img"><img src="assets/images/avatar-3.jpg" alt=""
-                              class="user-avatar-md rounded-circle"></div>
-                          <div class="notification-list-user-block"><span class="notification-list-user-name">John
-                              Abraham </span>is now following you
-                            <div class="notification-date">2 days ago</div>
-                          </div>
-                        </div>
-                      </a>
-                      <a href="#" class="list-group-item list-group-item-action">
-                        <div class="notification-info">
-                          <div class="notification-list-user-img"><img src="assets/images/avatar-4.jpg" alt=""
-                              class="user-avatar-md rounded-circle"></div>
-                          <div class="notification-list-user-block"><span class="notification-list-user-name">Monaan
-                              Pechi</span> is watching your main repository
-                            <div class="notification-date">2 min ago</div>
-                          </div>
-                        </div>
-                      </a>
-                      <a href="#" class="list-group-item list-group-item-action">
-                        <div class="notification-info">
-                          <div class="notification-list-user-img"><img src="assets/images/avatar-5.jpg" alt=""
-                              class="user-avatar-md rounded-circle"></div>
-                          <div class="notification-list-user-block"><span class="notification-list-user-name">Jessica
-                              Caruso</span>accepted your invitation to join the team.
-                            <div class="notification-date">2 min ago</div>
-                          </div>
-                        </div>
-                      </a>
+                      </a> --}}
+
+                      @include('admin.page.notif')
                     </div>
                   </div>
                 </li>
@@ -92,20 +66,6 @@
               </ul>
             </li>
             <li class="nav-item dropdown nav-user">
-              {{-- <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false"><img src="assets/images/avatar-1.jpg" alt=""
-                  class="user-avatar-md rounded-circle"></a>
-              <div class="dropdown-menu dropdown-menu-right nav-user-dropdown"
-                aria-labelledby="navbarDropdownMenuLink2">
-                <div class="nav-user-info">
-                  <h5 class="mb-0 text-white nav-user-name">John Abraham </h5>
-                  <span class="status"></span><span class="ml-2">Available</span>
-                </div>
-                <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
-                <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
-                <a class="dropdown-item" href="#"><i class="fas fa-power-off mr-2"></i>Logout</a>
-              </div> --}}
-
               <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false" v-pre>
                 {{ Auth::user()->name }} <span class="caret"></span>
@@ -209,15 +169,15 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link active" href="#" data-toggle="collapse" aria-expanded="false"
-                  data-target="#submenu-13" aria-controls="submenu-10"><i class="fas fa-shopping-cart"></i>Manajemen
+                  data-target="#submenu-14" aria-controls="submenu-10"><i class="fas fa-user"></i>Manajemen
                   Member</a>
-                <div id="submenu-13" class="collapse submenu" style="">
+                <div id="submenu-14" class="collapse submenu" style="">
                   <ul class="nav flex-column">
                     <li class="nav-item">
-                      <a class="nav-link @yield('activeMenuInputMember')" href="{{ url('pemb/showinput') }}">Input Member</a>
+                      <a class="nav-link @yield('activeMenuInputMember')" href="{{ url('memb/showinput') }}">Input Member</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link @yield('activeMenuListMember')" href="{{ url('pemb/showlist') }}">List Member</a>
+                      <a class="nav-link @yield('activeMenuListMember')" href="{{ url('memb/showlist') }}">List Member</a>
                     </li>
                   </ul>
                 </div>
@@ -299,6 +259,9 @@
   <script src="{{ asset('assets/vendor/slimscroll/jquery.slimscroll.js')}}"></script>
   <script src="{{ asset('assets/libs/js/main-js.js')}}"></script>
   <script src="{{ asset('assets/vendor/parsley/parsley.js')}}"></script>
+  <script src="{{ asset('assets/vendor/datepicker/moment.js')}}"></script>
+  <script src="{{ asset('assets/vendor/datepicker/tempusdominus-bootstrap-4.js')}}"></script>
+  <script src="{{ asset('assets/vendor/datepicker/datepicker.js')}}"></script>
 </body>
 
 </html>

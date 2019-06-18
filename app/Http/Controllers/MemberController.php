@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Pembelian;
+
+use Auth;
 
 class MemberController extends Controller
 {
@@ -16,5 +19,12 @@ class MemberController extends Controller
   {
     $this->middleware('auth');
     $this->middleware('role:ROLE_MEMBER');
+  }
+
+  public function ShowDashboard()
+  {
+    $id = Auth::user()->id;
+    $databeli = Pembelian::with('barang')->where('id_user', $id)->get();
+    return view('member.home', ['act' => 'showlist','databeli' => $databeli]);
   }
 }
