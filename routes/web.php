@@ -61,4 +61,5 @@ Route::get('memb/showlist/{msg}', 'AdminController@ShowMembListMsg');
 Route::get('memb/showdelete/{id}', 'AdminController@ShowMembDel');
 Route::get('memb/prosesdelete/{id}', 'AdminController@ProsesMembDel');
 Route::get('memb/showedit/{id}', 'AdminController@ShowMembEdit');
+Route::post('memb/prosesedit', 'AdminController@ProsesMembEdit');
 // END ADMIN

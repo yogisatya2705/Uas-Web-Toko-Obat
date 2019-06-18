@@ -218,7 +218,7 @@ padding-bottom: 40px;
   <!-- ============================================================== -->
   <!-- signup form  -->
   <!-- ============================================================== -->
-  <form class="splash-container" method="POST" action="{{ route('password.update') }}">
+  <form class="splash-container" method="POST" action="{{ url('memb/prosesedit') }}">
     @csrf
     <div class="card">
       <div class="card-header">

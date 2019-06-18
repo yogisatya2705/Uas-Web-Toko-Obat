@@ -9,6 +9,7 @@ use App\Supplier;
 use App\Pembelian;
 use App\User;
 use App\RoleUser;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -173,6 +174,35 @@ class AdminController extends Controller
     } else {
       return redirect('memb/showlist/6');
     }
+  }
+
+  public function ProsesMembEdit(Request $req)
+  {
+    $id = $req->id;
+    $name = $req->name;
+    $email = $req->email;
+    $jk = $req->jk;
+    $tgllahir = $req->tgllahir;
+    $alamat = $req->alamat;
+    $nohp = $req->nohp;
+    $password = $req->password;
+    try {
+      $hasil = User::find($id)->update([
+        'name' => $name,
+        'email' => $email,
+        'jk' => $jk,
+        'tgllahir' => $tgllahir,
+        'alamat' => $alamat,
+        'nohp' => $nohp,
+        'password' => Hash::make($password),
+      ]);
+    } catch (\Throwable $th) {
+      //throw $th;
+      // dd($th);
+      return redirect('memb/showlist/4');
+    }
+
+    return redirect('memb/showlist/3');
   }
 
   public function ShowBarInput()
