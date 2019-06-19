@@ -9,6 +9,7 @@ use App\Supplier;
 use App\Pembelian;
 use App\User;
 use App\RoleUser;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
@@ -21,8 +22,10 @@ class AdminController extends Controller
 
   public static function NotifUltah()
   {
-    $dataulangtahun = User::where('tgllahir', date("Y-m-d"))->get();
+    $dataulangtahun = User::whereMonth('tgllahir', date('m'))->whereDay('tgllahir', date('d'))->get();
+    // $dataulangtahun = User::where( DB::raw('MONTH(tgllahir)', '=', date('m') ))->get();
     // dd($dataulangtahun);
+    
 
     return $dataulangtahun;
   }
